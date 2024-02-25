@@ -1,0 +1,31 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+name: PayrollExtractGenerator
+
+on:
+  push:
+    branches: [ "develop", "main" ]
+  pull_request:
+    types: [opened, synchronize]
+
+# Definition of stages
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET environment
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.0"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --no-restore
+
+      - name: Run tests with code coverage
+        run: dotnet test --no-build --verbosity normal
