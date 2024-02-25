@@ -33,13 +33,10 @@ jobs:
       - name: Run tests with code coverage
         run: |
           dotnet test --collect:"XPlat Code Coverage"
-          reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coverage -reporttypes:Html
+          reportgenerator '-reports:**/coverage.cobertura.xml' -targetdir:coverage -reporttypes:Html
 
       - name: Install xmlstarlet
         run: sudo apt-get update && sudo apt-get install -y xmlstarlet
-
-      - name: List files in coverage directory
-        run: ls -lR coverage
 
       - name: Validate minimum coverage
         run: |
