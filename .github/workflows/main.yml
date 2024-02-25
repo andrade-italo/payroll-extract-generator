@@ -40,10 +40,10 @@ jobs:
 
       - name: Validate minimum coverage
         run: |
-          $coverage = [xml] (Get-Content coverage/coverage.xml)
-          $coveragePercent = $coverage.Report.Summary.LineCoveragePercent
-          if ($coveragePercent -lt 80) {
-            throw "Minimum coverage of 80% not reached. Current coverage: $coveragePercent%"
-          }
+          coverage=$(xmlstarlet sel -t -v 'Report/Summary/LineCoveragePercent' coverage/coverage.xml)
+          if [ "$coverage" -lt 80 ]; then
+            echo "Minimum coverage of 80% not reached. Current coverage: $coverage%"
+            exit 1
+          fi
 
 
