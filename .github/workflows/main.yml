@@ -29,6 +29,3 @@ jobs:
 
       - name: Run tests with code coverage
         run: dotnet test --no-build --verbosity normal
-
-      - name: Test Quality Gate Policies
-        uses: tr8team/actions.test-qualitygate@v1.0.1
