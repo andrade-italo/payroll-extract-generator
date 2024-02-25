@@ -1,0 +1,53 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+name: PayrollExtractGenerator
+
+on:
+  push:
+    branches: [ "develop", "main" ]
+  pull_request:
+    branches: [ "develop", "main" ]
+
+# Definition of stages
+jobs:
+  build:
+    # Execution environment settings
+    runs-on: ubuntu-latest
+
+    # Steps to be executed in the job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET environment
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.0"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --no-restore
+
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal
+
+      - name: Calculate code coverage
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
+      - run: dotnet test --collect:"XPlat Code Coverage"
+      - run: reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coverage -reporttypes:Html
+
+      - name: Validate minimum coverage
+        run: |
+          $coverage = [xml] (Get-Content coverage/coverage.xml)
+          $coveragePercent = $coverage.Report.Summary.LineCoveragePercent
+          if ($coveragePercent -lt 80) {
+            throw "Minimum coverage of 80% not reached. Current coverage: $coveragePercent%"
+          }
+
+      - name: Build Docker image
+        run: docker build -t payroll-extract-generator .
+
+      - name: Run Docker Compose
+        run: docker-compose up
