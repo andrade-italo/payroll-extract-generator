@@ -38,6 +38,9 @@ jobs:
       - name: Install xmlstarlet
         run: sudo apt-get update && sudo apt-get install -y xmlstarlet
 
+      - name: List files in coverage directory
+        run: ls -lR coverage
+
       - name: Validate minimum coverage
         run: |
           coverage=$(xmlstarlet sel -t -v 'Report/Summary/LineCoveragePercent' coverage/coverage.xml)
