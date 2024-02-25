@@ -11,10 +11,7 @@ on:
 # Definition of stages
 jobs:
   build:
-    # Execution environment settings
     runs-on: ubuntu-latest
-
-    # Steps to be executed in the job
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -30,13 +27,10 @@ jobs:
       - name: Build project
         run: dotnet build --no-restore
 
-      - name: Run tests
-        run: dotnet test --no-build --verbosity normal
-
-      - name: Calculate code coverage
-        run: dotnet tool install -g dotnet-reportgenerator-globaltool
-      - run: dotnet test --collect:"XPlat Code Coverage"
-      - run: reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coverage -reporttypes:Html
+      - name: Run tests with code coverage
+        run: |
+          dotnet test --collect:"XPlat Code Coverage"
+          reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coverage -reporttypes:Html
 
       - name: Install xmlstarlet
         run: sudo apt-get update && sudo apt-get install -y xmlstarlet
