@@ -50,5 +50,5 @@ jobs:
         run: docker build -t payroll-extract-generator .
 
       - name: Run Docker Compose
-        run: |
-          docker-compose up -d
+        run: docker-compose up -d
+
