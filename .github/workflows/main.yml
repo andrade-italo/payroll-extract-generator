@@ -27,23 +27,8 @@ jobs:
       - name: Build project
         run: dotnet build --no-restore
 
-      - name: Install reportgenerator
-        run: dotnet tool install -g dotnet-reportgenerator-globaltool
-
       - name: Run tests with code coverage
-        run: |
-          dotnet test --collect:"XPlat Code Coverage"
-          reportgenerator '-reports:**/coverage.cobertura.xml' -targetdir:coverage -reporttypes:Html
+        run: dotnet test --no-build --verbosity normal
 
-      - name: Install xmlstarlet
-        run: sudo apt-get update && sudo apt-get install -y xmlstarlet
-
-      - name: Validate minimum coverage
-        run: |
-          coverage=$(xmlstarlet sel -t -v 'Report/Summary/LineCoveragePercent' coverage/coverage.xml)
-          if [ "$coverage" -lt 80 ]; then
-            echo "Minimum coverage of 80% not reached. Current coverage: $coverage%"
-            exit 1
-          fi
-
-
+      - name: SonarQube Quality Gate Check
+        uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
