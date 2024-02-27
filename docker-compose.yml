@@ -4,3 +4,18 @@ services:
     build: .
     ports:
       - "8090:8080"
+    networks:
+      - local_network
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Pass@word
+    networks:
+      - local_network
+
+networks:
+  local_network:
+    driver: bridge
