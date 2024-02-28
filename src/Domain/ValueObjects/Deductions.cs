@@ -2,5 +2,5 @@
 
 namespace PayrollExtractGenerator.Domain.ValueObjects
 {
-  public record Discount(DiscountType Type, decimal Value);
+  public record Deductions(EntriesItemType type, decimal Value, DeductionsType description);
 };
