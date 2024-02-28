@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PayrollExtractGenerator.Domain.Entities
+﻿namespace PayrollExtractGenerator.Domain.Entities
 {
   public class Employee
   {
