@@ -9,8 +9,6 @@ namespace PayrollExtractGenerator.Infrastructure.Extensions
   public static class RepositoriesExtension
   {
     public static IServiceCollection AddRepositories(this IServiceCollection services)
-    {
-      return services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-    }
+      => services.AddScoped<IEmployeeRepository, EmployeeRepository>();
   }
 }
