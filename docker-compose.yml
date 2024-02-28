@@ -4,8 +4,13 @@ services:
     build: .
     ports:
       - "8090:8080"
+    environment:
+      - ConnectionStrings__PayrollExtractGeneratorDbContext=Server=db,1433;Initial Catalog=SQL_PAYROLL_EXTRACT_GENERATOR;User Id=sa;Password=Pass@word;Encrypt=True;TrustServerCertificate=True;
     networks:
       - local_network
+    depends_on:
+      - db
+
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     ports:
@@ -13,6 +18,16 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Pass@word
+    volumes:
+      - ./src/Infrastructure/Scripts:/Scripts
+    command:
+      - /bin/bash
+      - -c
+      - |
+        /opt/mssql/bin/sqlservr &
+        sleep 19
+        /opt/mssql-tools/bin/sqlcmd -U sa -P 'Pass@word' -l 30 -e -i /Scripts/SQL_PAYROLL_EXTRACT_GENERATOR.sql
+        sleep infinity
     networks:
       - local_network
 

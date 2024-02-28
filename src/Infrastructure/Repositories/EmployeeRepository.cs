@@ -1,14 +1,14 @@
-using Microsoft.EntityFrameworkCore;
 using PayrollExtractGenerator.Domain.Entities;
 using PayrollExtractGenerator.Domain.Interfaces;
+using PayrollExtractGenerator.Infrastructure.Context;
 
 namespace PayrollExtractGenerator.Infrastructure.Repositories
 {
   public class EmployeeRepository : IEmployeeRepository
   {
-    private readonly DbContext _dbContext;
+    private readonly PayrollExtractGeneratorDbContext _dbContext;
 
-    public EmployeeRepository(DbContext dbContext)
+    public EmployeeRepository(PayrollExtractGeneratorDbContext dbContext)
     {
       _dbContext = dbContext;
     }
@@ -18,10 +18,11 @@ namespace PayrollExtractGenerator.Infrastructure.Repositories
       return await _dbContext.Set<Employee>().FindAsync(id);
     }
 
-    public async Task AddAsync(Employee employee)
+    public async Task<long> AddAsync(Employee employee)
     {
       _dbContext.Set<Employee>().Add(employee);
       await _dbContext.SaveChangesAsync();
+      return employee.Id;
     }
   }
 }

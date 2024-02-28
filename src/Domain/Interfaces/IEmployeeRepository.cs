@@ -6,6 +6,6 @@ namespace PayrollExtractGenerator.Domain.Interfaces
   public interface IEmployeeRepository
   {
     Task<Employee> GetByIdAsync(long id);
-    Task AddAsync(Employee employee);
+    Task<long> AddAsync(Employee employee);
   }
 }
