@@ -115,9 +115,19 @@ The project is structured as follows:
 
 To run the project locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/andrade-italo/payroll-extract-generator.git`.
-2. Navigate to the project directory: `cd payroll-extract-generator`.
-3. Run the Docker Compose command: `docker-compose up`.
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/andrade-italo/payroll-extract-generator.git
+   ```
+2. Navigate to the project directory: 
+   ```sh
+   cd payroll-extract-generator
+   ```
+3. Run the Docker Compose command: 
+   ```sh
+   docker-compose up
+   ```
+4. [Access the Swagger documentation](http://localhost:8090/swagger/index.html)
 
 ### Routes and Functionality
 
