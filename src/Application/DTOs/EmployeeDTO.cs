@@ -1,8 +1,8 @@
-﻿namespace PayrollExtractGenerator.Domain.Entities
+namespace PayrollExtractGenerator.Application.DTOs
 {
-  public class Employee
+  public class EmployeeDTO
   {
-    public long Id { get; init; }
+    public long? Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Document { get; set; }

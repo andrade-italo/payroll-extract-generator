@@ -1,11 +1,12 @@
 namespace PayrollExtractGenerator.Domain.Enums
 {
-  public enum DiscountType
+  public enum DeductionsType
   {
     INSS,
     IncomeTax,
     HealthPlan,
     DentalPlan,
-    TransportationVoucher
+    TransportationVoucher,
+    FGTS
   }
 }

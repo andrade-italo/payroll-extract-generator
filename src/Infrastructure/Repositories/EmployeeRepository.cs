@@ -18,11 +18,11 @@ namespace PayrollExtractGenerator.Infrastructure.Repositories
       return await _dbContext.Set<Employee>().FindAsync(id);
     }
 
-    public async Task<long> AddAsync(Employee employee)
+    public async Task<Employee> AddAsync(Employee employee)
     {
-      _dbContext.Set<Employee>().Add(employee);
+      var insertEmployee = await _dbContext.Set<Employee>().AddAsync(employee);
       await _dbContext.SaveChangesAsync();
-      return employee.Id;
+      return insertEmployee.Entity;
     }
   }
 }
