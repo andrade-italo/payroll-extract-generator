@@ -1,29 +1,10 @@
 # Payroll Extract Generator
 
-## Table of Contents
-
-- [Overview](#overview)
-- [Business Details](#business-details)
-  - [Payroll Extract Details](#payroll-extract-details)
-  - [Entry Details](#entry-details)
-  - [Calculation Methodologies](#calculation-methodologies)
-  - [Example Calculation](#example-calculation)
-- [Technical Details](#technical-details)
-  - [Architecture](#architecture)
-  - [Technologies Used](#technologies-used)
-  - [Development Environment Setup](#development-environment-setup)
-  - [Project Structure](#project-structure)
-  - [Running the Project](#running-the-project)
-  - [Routes and Functionality](#routes-and-functionality)
-- [Technical Debt and Future Improvements](#technical-debt-and-future-improvements)
-- [Contribution](#contribution)
-- [Credits](#credits)
-  - [Documentation](#documentation)
-  - [Development](#development)
-
 ## Overview
 
-The Payroll Extract Generator is a web application designed to simplify the process of generating payroll extracts for employees. It provides a user-friendly interface for managing employee data, calculating gross salaries, applying deductions, and generating detailed payroll reports.
+The Payroll Extract Generator is a backend web application developed as part of a personal study project. It is designed to simplify the process of generating payroll extracts for employees, providing a user-friendly interface for managing employee data, calculating gross salaries, applying deductions, and generating detailed payroll reports.
+
+This project serves as a learning experience to explore concepts of backend development, including backend technologies, database management, and application architecture. It is designed to be platform-agnostic, serving data over HTTP and capable of running on any platform that supports HTTP communication. It is not intended for production use but rather as a sandbox for experimenting and applying new backend development skills.
 
 ## Business Details
 
@@ -58,10 +39,7 @@ The total deductions are calculated by summing all the deduction entries for the
 #### Net Salary
 
 The net salary is calculated by subtracting the total deductions from the gross salary.
-
-### Example Calculation
-
-Suppose an employee's gross salary is $5000, and their deductions total $1000. The net salary would be $4000 ($5000 - $1000).
+Example: Suppose an employee's gross salary is $5000, and their deductions total $1000. The net salary would be $4000 ($5000 - $1000).
 
 ### Salary Deductions Calculation
 
@@ -77,7 +55,7 @@ Suppose an employee's gross salary is $5000, and their deductions total $1000. T
 
    - **Base Calculation (R$) | Tax Rate (%) | Deduction Amount (R$)**
    - Up to 1,903.98 | - | -
-   - 1,903.90 to 2,826.65 | 7.5 | 142.8
+   - 1,903.98 to 2,826.65 | 7.5 | 142.8
    - 2,826.66 to 3,751.05 | 15 | 354.8
    - 3,751.06 to 4,664.68 | 22.5 | 636.13
    - Above 4,664.68 | 27.5 | 869.36
@@ -103,6 +81,12 @@ The project follows a modular architecture inspired by Domain-Driven Design (DDD
 - **Domain Layer:** Defines the core business entities and value objects.
 - **Infrastructure Layer:** Implements data access, external services, and other infrastructure-related functionality.
 
+### Design Patterns Used
+
+- **Repository Pattern:** Implemented to abstract the data access layer and provide a consistent interface for data operations.
+- **Dependency Injection:** Utilized to manage object dependencies and facilitate testing and decoupling of components.
+- **Strategy Pattern:** Used to define a family of algorithms, encapsulate each one, and make them interchangeable. This pattern allows the algorithm to vary independently of the clients that use it, promoting flexibility and extensibility in the application.
+
 ### Technologies Used
 
 - **ASP.NET Core:** Framework for building web applications.
@@ -125,21 +109,21 @@ The project is structured as follows:
 - `src/Application`: Application layer with Use Cases and Services.
 - `src/Domain`: Domain layer with Entities and Value Objects.
 - `src/Infrastructure`: Infrastructure layer with Data Access and External Services implementations.
-- `tests`: Unit tests for the application.
+- `tests/Unit`: Unit tests for the application.
 
 ### Running the Project
 
 To run the project locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/username/payroll-extract-generator.git`.
+1. Clone the repository: `git clone https://github.com/andrade-italo/payroll-extract-generator.git`.
 2. Navigate to the project directory: `cd payroll-extract-generator`.
 3. Run the Docker Compose command: `docker-compose up`.
 
 ### Routes and Functionality
 
-- **GET /api/employees/{id}:** Retrieve an employee by ID.
+- **GET /api/employees/{id}:** Get details of an employee by ID.
 - **POST /api/employees:** Create a new employee.
-- **GET /api/payroll/extracts/{id}:** Retrieve a payroll extract by ID.
+- **GET /api/payroll/extracts/{employeeId}:** Get payroll extracts by employee ID.
 
 ### Technical Debt and Future Improvements
 
