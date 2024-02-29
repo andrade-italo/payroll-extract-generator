@@ -19,30 +19,16 @@
 
     public decimal Calculate(decimal salary)
     {
-      if (salary > FourthThreshold)
+      ITaxCalculationStrategy _strategy = salary switch
       {
-        return (salary * FourthRate) - FourthDeduction;
-      }
+        <= FirstThreshold => new ProgressiveTaxCalculationStrategy(salary, Decimal.Zero, Decimal.Zero),
+        <= SecondThreshold => new ProgressiveTaxCalculationStrategy(salary, FirstRate, FirstDeduction),
+        <= ThirdThreshold => new ProgressiveTaxCalculationStrategy(salary, SecondRate, SecondDeduction),
+        <= FourthThreshold => new ProgressiveTaxCalculationStrategy(salary, ThirdRate, ThirdDeduction),
+        _ => new ProgressiveTaxCalculationStrategy(salary, FourthRate, FourthDeduction)
+      };
 
-      else if (salary > ThirdThreshold && salary <= FourthThreshold)
-      {
-        return (salary * ThirdRate) - ThirdDeduction;
-
-      }
-      else if (salary > SecondThreshold && salary <= ThirdThreshold)
-      {
-        return (salary * SecondRate) - SecondDeduction;
-
-      }
-      else if (salary > FirstThreshold && salary <= SecondThreshold)
-      {
-        return (salary * FirstRate) - FirstDeduction;
-
-      }
-      else
-      {
-        return Decimal.Zero;
-      }
+      return _strategy.Calculate();
     }
   }
 }
