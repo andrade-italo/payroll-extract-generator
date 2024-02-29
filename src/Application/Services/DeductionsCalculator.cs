@@ -7,26 +7,25 @@ namespace PayrollExtractGenerator.Application.Services
 {
   public class DeductionsCalculator
   {
-    private readonly List<ICalculationStrategy> _strategies;
-
     public List<Deductions> CalculateAll(decimal salary)
     {
       var deductionsList = new List<Deductions>();
 
-      foreach (var strategy in _strategies)
+      foreach (DeductionsType deductionsType in Enum.GetValues(typeof(DeductionsType)))
       {
-        var deductionsType = strategy switch
+        ICalculationStrategy strategy = deductionsType switch
         {
-          INSSCalculator => DeductionsType.INSS,
-          IncomeTaxCalculator => DeductionsType.IncomeTax,
-          HealthPlanCalculator => DeductionsType.HealthPlan,
-          DentalPlanCalculator => DeductionsType.DentalPlan,
-          TransportationVoucherCalculator => DeductionsType.TransportationVoucher,
-          FGTSCalculator => DeductionsType.FGTS,
-          _ => throw new UnknownStrategyException(strategy.GetType().Name),
+          DeductionsType.INSS => new INSSCalculator(),
+          DeductionsType.IncomeTax => new IncomeTaxCalculator(),
+          DeductionsType.HealthPlan => new HealthPlanCalculator(),
+          DeductionsType.DentalPlan => new DentalPlanCalculator(),
+          DeductionsType.TransportationVoucher => new TransportationVoucherCalculator(),
+          DeductionsType.FGTS => new FGTSCalculator(),
+          _ => throw new UnknownStrategyException(deductionsType.ToString()),
         };
+
         var deductionsValue = strategy.Calculate(salary);
-        var deductionEntry = new Deductions(EntriesItemType.Deduction, deductionsValue, deductionsType);
+        var deductionEntry = new Deductions(EntriesItemType.Deduction.ToString(), deductionsValue, deductionsType.ToString());
         deductionsList.Add(deductionEntry);
       }
 
